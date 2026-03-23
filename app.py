@@ -4,6 +4,7 @@ from flask import redirect, render_template, request, session
 from werkzeug.security import generate_password_hash, check_password_hash
 import config
 import db
+import items
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -24,13 +25,7 @@ def create_item():
     game = request.form["game"]
     user_id = session["user_id"]
 
-    sql = "SELECT id FROM games WHERE name = ?"
-    game_id = db.query(sql, [game])[0][0]
-
-    sql = """INSERT INTO items (title, seed, description, user_id, game_id)
-    VALUES (?, ?, ?, ?, ?)"""
-    db. execute(sql, [title, seed, description, user_id, game_id])
-
+    items.add_item(title, seed, description, user_id, game)
     return redirect("/")
 
 
