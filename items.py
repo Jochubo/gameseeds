@@ -16,9 +16,11 @@ def get_items():
 def get_item(item_id):
     sql = """
     SELECT
+        I.id,
         I.title,
         I.seed,
         I.description,
+        I.user_id,
         U.username,
         G.name AS game
     FROM
@@ -30,3 +32,16 @@ def get_item(item_id):
     """
 
     return db.query(sql, [item_id])[0]
+
+def update_item(item_id, title, description):
+    sql = """
+    UPDATE
+        Items
+    SET
+        title = ?,
+        description = ?
+    WHERE
+        id = ?
+    """
+
+    db.execute(sql, [title, description, item_id])
