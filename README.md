@@ -1,4 +1,5 @@
 # Gameseeds
+
 ## Application features
 - Users can create an account and log in.
 - Users can add, edit and delete posts.
@@ -10,3 +11,25 @@
 - Users can comment on posts.
 - Original poster can highlite comments on their post.
 - Application has a public user page that includes, total post likes and created posts.
+
+## Installation
+
+
+Install the `flask`-library:
+
+```
+$ pip install flask
+```
+
+Initialize database and tables:
+
+```
+$ sqlite3 database.db < schema.sql
+$ sqlite3 database.db < init.sql
+```
+
+For startup run:
+
+```
+$ flask run
+```
