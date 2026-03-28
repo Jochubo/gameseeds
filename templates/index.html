@@ -25,6 +25,9 @@
   </p>
 
   <h2>Posts</h2>
+  <form action="/" method="get">
+    <p>Search: <input type="text" name="query" value="{{ query }}"> <input type="submit" value="Search"></p>
+  </form>
     <ul>
     {% for item in items %}
     <li><a href="/item/{{  item.id  }}">{{ item.title }}</a></li>

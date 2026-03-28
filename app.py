@@ -11,8 +11,13 @@ app.secret_key = config.secret_key
 
 @app.route("/")
 def index():
-    all_items = items.get_items()
-    return render_template("index.html", items=all_items)
+    query = request.args.get("query")
+    if query:
+        all_items = items.find_items(query)
+    else:
+        all_items = items.get_items()
+        query = ""
+    return render_template("index.html", items=all_items, query=query)
 
 @app.route("/item/<int:item_id>")
 def show_item(item_id):
