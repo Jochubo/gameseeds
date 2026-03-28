@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Delete Post</title>
+</head>
+
+<body>
+  <h1>Delete Post</h1>
+  <p>
+    {{ item.title }} | {{ item.seed }}
+  </p>
+  <p>Are you sure you want to delete this post?</p>
+  <form action="/remove_item/{{ item.id }}" method="post">
+    <input type="submit" name="remove" value="Delete Post">
+    <input type="submit" name="back" value="Nevermind">
+  </form>
+</body>
+
+</html>
+

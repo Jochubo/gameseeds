@@ -19,6 +19,7 @@
     <a href="/">Back</a>
     {% if session.user_id == item.user_id %}
     <a href="/edit_item/{{ item.id }}">Edit</a>
+    <a href="/remove_item/{{ item.id }}">Delete</a>
     {% endif %}
   </p>
 </body>
