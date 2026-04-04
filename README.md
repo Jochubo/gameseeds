@@ -21,11 +21,10 @@ Install the `flask`-library:
 $ pip install flask
 ```
 
-Initialize database and tables:
+Initialize tables:
 
 ```
 $ sqlite3 database.db < schema.sql
-$ sqlite3 database.db < init.sql
 ```
 
 For startup run:
