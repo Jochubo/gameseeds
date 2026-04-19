@@ -31,4 +31,11 @@ For startup run:
 
 ```
 $ flask run
+
+```
+For testing run (temporary):
+
+```
+$ sqlite3 database.db < testinit.sql
+
 ```
