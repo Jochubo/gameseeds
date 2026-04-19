@@ -75,7 +75,14 @@ def update_item():
     item_id = request.form["item_id"]
     title = request.form["title"]
     description = request.form["description"]
+
     if item_id != session["user_id"]:
+        abort(403)
+    if len(title) > 50:
+        abort(403)
+    elif len(description) > 1000:
+        abort(403)
+    elif not title or description:
         abort(403)
 
     items.update_item(item_id, title, description)
