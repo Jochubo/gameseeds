@@ -9,19 +9,19 @@
   <form action="/create_item" method="post">
     <p>
       Title: <br />
-      <input type="text" name="title" />
+      <input type="text" name="title" maxlength="50" required/>
     </p>
     <p>
       Game: <br />
-      <input type="text" name="game" />
+      <input type="text" name="game" maxlength="50" required/>
     </p>
     <p>
       Seed: <br />
-      <input type="text" name="seed" />
+      <input type="text" name="seed" maxlength="50" pattern="[0-9]{0,50}" required/>
     </p>
     <p>
       Description: <br />
-      <textarea name="description" rows="8" cols="40"></textarea>
+      <textarea name="description" rows="8" cols="40" maxlength="1000" required></textarea>
     </p>
     <input type="submit" value="Create Post" />
   </form>

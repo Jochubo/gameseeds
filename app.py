@@ -1,4 +1,5 @@
 import sqlite3
+import re
 from flask import Flask
 from flask import abort, redirect, render_template, request, session
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -33,6 +34,7 @@ def show_item(item_id):
 @app.route("/new_item")
 def new_item():
     require_login()
+
     return render_template("new_item.html")
 
 @app.route("/create_item", methods=["POST"])
@@ -44,6 +46,15 @@ def create_item():
     description = request.form["description"]
     game = request.form["game"]
     user_id = session["user_id"]
+
+    if len(title) > 50 or len(seed) > 50 or len(game) > 50:
+        abort(403)
+    elif len(description) > 1000:
+        abort(403)
+    elif not title or seed or game or description:
+        abort(403)
+    elif not re.search("^[0-9]{0,50}$", seed):
+        abort(403)
 
     items.add_item(title, seed, description, user_id, game)
     return redirect("/")
