@@ -12,17 +12,18 @@
   <p>
     Logged in as {{ session.username }}
   </p>
-  {% endif %}
-
   <p>
-    <a href="/login">Login</a>
-    <a href="/register">Register</a>
     <a href="/logout">Logout</a>
   </p>
-
   <p>
     <a href=/new_item>New Seed<a/>
   </p>
+  {% else %}
+  <p>
+    <a href="/login">Login</a>
+    <a href="/register">Register</a>
+  </p>
+  {% endif %}
 
   <h2>Posts</h2>
   <form action="/" method="get">
