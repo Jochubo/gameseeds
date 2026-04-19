@@ -33,6 +33,9 @@
     <li><a href="/item/{{  item.id  }}">{{ item.title }}</a></li>
     {% endfor %}
     </ul>
+    {% if not items %}
+    <p>No results for "{{ query }}"</p>
+    {% endif %}
 </body>
 
 </html>
