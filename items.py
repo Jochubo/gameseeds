@@ -67,3 +67,32 @@ def find_items(terms, game_id):
 
     terms = "%" + terms + "%"
     return db.query(sql, [game_id, terms, terms])
+
+def add_comment(item_id, user_id, comment):
+    print(item_id)
+    print(user_id)
+    print(comment)
+    sql = """INSERT INTO comments (item_id, user_id, content, pinned)
+    VALUES (?, ?, ?, 0)"""
+
+    db.execute(sql, [item_id, user_id, comment])
+
+def get_comments(item_id):
+    sql ="""
+    SELECT
+        C.content,
+        U.username,
+        C.user_id,
+        C.time,
+        C.pinned
+    FROM
+        Comments C, Users U
+    WHERE
+        C.item_id = ? AND
+        C.user_id = U.id
+    ORDER BY
+        C.pinned,
+        C.id DESC
+    """
+
+    return db.query(sql, [item_id])

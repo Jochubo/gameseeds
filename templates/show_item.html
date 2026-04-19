@@ -22,6 +22,17 @@
     <a href="/remove_item/{{ item.id }}">Delete</a>
     {% endif %}
   </p>
+  <h2>Create comment</h2>
+  <form action="/create_comment" method="post">
+    <p>
+      <textarea name="comment" rows="8" cols="40" maxlength="400" required></textarea>
+    </p>
+    <input type="hidden" name="item_id" value="{{ item.id }}">
+    <input type="submit" value="Send"/>
+  </form>
+  {% for comment in comments %}
+  <p><a href="/user/{{ comment.user_id }}">{{ comment.username }}</a> | {{ comment.time }} : {{ comment.content }}</p>
+  {% endfor %}
 </body>
 
 </html>

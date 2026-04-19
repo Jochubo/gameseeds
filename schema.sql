@@ -5,10 +5,10 @@ CREATE TABLE users (
 );
 
 CREATE TABLE games (
-  id INTEGER PRIMARY KEY,
-  name TEXT UNIQUE,
-  seed_length INTEGER,
-  seed_allowed TEXT
+    id INTEGER PRIMARY KEY,
+    name TEXT UNIQUE,
+    seed_length INTEGER,
+    seed_allowed TEXT
 );
 
 CREATE TABLE items (
@@ -18,4 +18,13 @@ CREATE TABLE items (
     description TEXT,
     user_id INTEGER REFERENCES users,
     game_id INTEGER REFERENCES games
+);
+
+CREATE TABLE comments (
+    id INTEGER PRIMARY KEY,
+    item_id INTEGER REFERENCES items,
+    user_id INTEGER REFERENCES users,
+    content TEXT,
+    time TEXT DEFAULT CURRENT_TIMESTAMP,
+    pinned INTEGER
 );
