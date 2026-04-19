@@ -6,6 +6,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import config
 import db
 import items
+import users
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -23,6 +24,14 @@ def index():
         all_items = items.get_items()
         query = ""
     return render_template("index.html", items=all_items, query=query)
+
+@app.route("/user/<int:user_id>")
+def show_user(user_id):
+    user = users.get_user(user_id)
+    if not user:
+        abort(404)
+    items = users.get_items(user_id)
+    return render_template("show_user.html", user=user, items=items)
 
 @app.route("/item/<int:item_id>")
 def show_item(item_id):
