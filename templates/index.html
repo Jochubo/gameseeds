@@ -27,7 +27,14 @@
 
   <h2>Posts</h2>
   <form action="/" method="get">
-    <p>Search: <input type="text" name="query" value="{{ query }}"> <input type="submit" value="Search"></p>
+    <p>Game: <select name="game_id">
+      <option value="">All</option>
+      <option {% if game_id == "0" %}selected{% endif %} value="0">Testgame</option>
+      <option {% if game_id == "1" %}selected{% endif %} value="1">Testgame1</option>
+      <option {% if game_id == "2" %}selected{% endif %} value="2">Testgame2</option>
+      <option {% if game_id == "3" %}selected{% endif %} value="3">Testgame3</option>
+    </select></p>
+    <p>Search: <input type="text" name="terms" value="{{ terms }}"> <input type="submit" value="Search"></p>
   </form>
     <ul>
     {% for item in items %}
@@ -35,7 +42,7 @@
     {% endfor %}
     </ul>
     {% if not items %}
-    <p>No results for "{{ query }}"</p>
+    <p>No results</p>
     {% endif %}
 </body>
 

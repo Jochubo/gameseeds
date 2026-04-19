@@ -16,13 +16,18 @@ def require_login():
 
 @app.route("/")
 def index():
-    query = request.args.get("query")
-    if query:
-        all_items = items.find_items(query)
+    terms = request.args.get("terms")
+    game_id = request.args.get("game_id")
+    if not terms:
+        terms = ""
+    if not game_id:
+        game_id = ""
     else:
+        all_items = items.find_items(terms, game_id)
+    if terms == "" and game_id == "":
         all_items = items.get_items()
-        query = ""
-    return render_template("index.html", items=all_items, query=query)
+
+    return render_template("index.html", items=all_items, terms=terms, game_id=game_id)
 
 @app.route("/user/<int:user_id>")
 def show_user(user_id):
@@ -59,7 +64,7 @@ def create_item():
         abort(403)
     elif len(description) > 1000:
         abort(403)
-    elif not title or seed or game or description:
+    elif not ( title or seed or game or description ):
         abort(403)
     elif not re.search("^[0-9]{0,50}$", seed):
         abort(403)

@@ -51,18 +51,19 @@ def remove_item(item_id):
     sql = "DELETE FROM Items WHERE id = ?"
     db.execute(sql, [item_id])
 
-def find_items(query):
+def find_items(terms, game_id):
     sql = """
     SELECT
         id, title
     FROM
         Items
     WHERE
-        description LIKE ? OR
-        title LIKE ?
+        game_id = ? AND
+        (description LIKE ? OR
+        title LIKE ?)
     ORDER BY
         id DESC
     """
 
-    query = "%" + query + "%"
-    return db.query(sql, [query, query])
+    terms = "%" + terms + "%"
+    return db.query(sql, [game_id, terms, terms])
