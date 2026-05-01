@@ -136,6 +136,21 @@ def remove_item(item_id):
         else:
             return redirect("/item/" + str(item_id))
 
+@app.route("/remove_comment/<int:comment_id>", methods=["GET", "POST"])
+def remove_comment(comment_id):
+    require_login()
+
+    comment = items.get_comment(comment_id)
+
+    if request.method == "GET":
+        if not comment:
+            abort(404)
+        return render_template("remove_comment.html", comment=comment)
+
+    if request.method == "POST":
+        if "remove" in request.form:
+            items.remove_comment(comment_id)
+        return redirect("/item/" + str(comment["item_id"]))
 
 @app.route("/register")
 def register():

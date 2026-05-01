@@ -12,6 +12,7 @@
   <p>
   OP: <a href="/user/{{ item.user_id }}">{{ item.username }}<a/>
   </p>
+
   <p>
   {{ item.description }}
   </p>
@@ -22,16 +23,27 @@
     <a href="/remove_item/{{ item.id }}">Delete</a>
     {% endif %}
   </p>
+
+  {% if session.user_id %}
   <h2>Create comment</h2>
   <form action="/create_comment" method="post">
     <p>
-      <textarea name="comment" rows="8" cols="40" maxlength="400" required></textarea>
+      <textarea name="comment" rows="2" cols="40" maxlength="400" required></textarea>
     </p>
     <input type="hidden" name="item_id" value="{{ item.id }}">
     <input type="submit" value="Send"/>
   </form>
+  {% endif %}
+
+  <h2>Comments</h2>
   {% for comment in comments %}
-  <p><a href="/user/{{ comment.user_id }}">{{ comment.username }}</a> | {{ comment.time }} : {{ comment.content }}</p>
+  <p><a href="/user/{{ comment.user_id }}">{{ comment.username }}</a> | {{ comment.time }} :</p>
+  <p>{{ comment.content }}</p>
+  {% if session.user_id == comment.user_id %}
+  <p>
+    <a href="/remove_comment/{{ comment.id }}">Delete</a>
+  </p>
+  {% endif %}
   {% endfor %}
 </body>
 

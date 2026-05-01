@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Delete Comment</title>
+</head>
+
+<body>
+  <h1>Delete Comment</h1>
+  <p>
+    {{ comment.username }} | {{ comment.time }} :
+  </p>
+  <p>
+    {{ comment.content }}
+  </p>
+  <p>Are you sure you want to delete this comment?</p>
+  <form action="/remove_comment/{{ comment.id }}" method="post">
+    <input type="submit" name="remove" value="Delete Comment">
+    <input type="submit" name="back" value="Nevermind">
+  </form>
+</body>
+
+</html>
+
