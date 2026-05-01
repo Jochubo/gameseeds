@@ -68,6 +68,36 @@ def find_items(terms, game_id):
     terms = "%" + terms + "%"
     return db.query(sql, [game_id, terms, terms])
 
+def find_with_terms(terms):
+    sql = """
+    SELECT
+        id, title
+    FROM
+        Items
+    WHERE
+        description LIKE ? OR
+        title LIKE ?
+    ORDER BY
+        id DESC
+    """
+
+    terms = "%" + terms + "%"
+    return db.query(sql, [terms, terms])
+
+def find_with_game(game_id):
+    sql = """
+    SELECT
+        id, title
+    FROM
+        Items
+    WHERE
+        game_id = ?
+    ORDER BY
+        id DESC
+    """
+
+    return db.query(sql, [game_id])
+
 def add_comment(item_id, user_id, comment):
     print(item_id)
     print(user_id)

@@ -27,13 +27,14 @@ def check_csrf():
 def index():
     terms = request.args.get("terms")
     game_id = request.args.get("game_id")
-    if not terms:
-        terms = ""
-    if not game_id:
-        game_id = ""
-    else:
+
+    if terms and game_id:
         all_items = items.find_items(terms, game_id)
-    if terms == "" and game_id == "":
+    elif not terms and game_id:
+        all_items = items.find_with_game(game_id)
+    elif terms and not game_id:
+        all_items = items.find_with_terms(terms)
+    else:
         all_items = items.get_items()
 
     return render_template("index.html", items=all_items, terms=terms, game_id=game_id)
