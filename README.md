@@ -10,7 +10,7 @@
 - Users can like posts.
 - Users can comment on posts.
 - Original poster can highlite comments on their post.
-- Application has a public user page that includes, total post likes and created posts.
+- Application has a public user page that includes total post likes and created posts.
 
 ## Installation
 
