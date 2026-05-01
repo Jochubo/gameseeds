@@ -4,7 +4,6 @@ from flask import Flask
 from flask import abort, redirect, render_template, request, session, flash
 from secrets import token_hex
 import config
-import db
 import items
 import users
 
@@ -36,6 +35,12 @@ def index():
         all_items = items.find_with_terms(terms)
     else:
         all_items = items.get_items()
+
+    if not terms:
+        terms = ""
+    if not game_id:
+        game_id = ""
+
 
     return render_template("index.html", items=all_items, terms=terms, game_id=game_id)
 
