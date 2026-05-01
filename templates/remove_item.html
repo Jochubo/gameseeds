@@ -12,8 +12,9 @@
   </p>
   <p>Are you sure you want to delete this post?</p>
   <form action="/remove_item/{{ item.id }}" method="post">
-    <input type="submit" name="remove" value="Delete Post">
-    <input type="submit" name="back" value="Nevermind">
+    <input type="submit" name="remove" value="Delete Post" />
+    <input type="submit" name="back" value="Nevermind" />
+    <input type="hidden" name="csrf_token" value="{{session.csrf_token}}" />
   </form>
 </body>
 

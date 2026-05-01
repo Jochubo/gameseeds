@@ -1,7 +1,8 @@
 import sqlite3
 import re
 from flask import Flask
-from flask import abort, redirect, render_template, request, session
+from flask import abort, redirect, render_template, request, session, flash
+from secrets import token_hex
 import config
 import db
 import items
@@ -12,6 +13,14 @@ app.secret_key = config.secret_key
 
 def require_login():
     if "user_id" not in session:
+        abort(403)
+
+def check_csrf():
+    print("csrf")
+    print(request.form["csrf_token"])
+    print(session["csrf_token"])
+    if request.form["csrf_token"] != session["csrf_token"]:
+        print("csrf abort")
         abort(403)
 
 @app.route("/")
@@ -54,6 +63,7 @@ def new_item():
 @app.route("/create_item", methods=["POST"])
 def create_item():
     require_login()
+    check_csrf()
 
     title = request.form["title"]
     seed = request.form["seed"]
@@ -76,6 +86,7 @@ def create_item():
 @app.route("/create_comment", methods=["POST"])
 def create_comment():
     require_login()
+    check_csrf()
 
     comment = request.form["comment"]
     item_id = request.form["item_id"]
@@ -103,17 +114,20 @@ def edit_item(item_id):
 
 @app.route("/update_item", methods=["POST"])
 def update_item():
+    check_csrf()
+
+    user_id = int(request.form["user_id"])
     item_id = request.form["item_id"]
     title = request.form["title"]
     description = request.form["description"]
 
-    if item_id != session["user_id"]:
+    if user_id != session["user_id"]:
         abort(403)
     if len(title) > 50:
         abort(403)
     elif len(description) > 1000:
         abort(403)
-    elif not title or description:
+    elif not title or not description:
         abort(403)
 
     items.update_item(item_id, title, description)
@@ -131,6 +145,7 @@ def remove_item(item_id):
 
     if request.method == "POST":
         if "remove" in request.form:
+            check_csrf()
             items.remove_item(item_id)
             return redirect("/")
         else:
@@ -149,6 +164,7 @@ def remove_comment(comment_id):
 
     if request.method == "POST":
         if "remove" in request.form:
+            check_csrf()
             items.remove_comment(comment_id)
         return redirect("/item/" + str(comment["item_id"]))
 
@@ -184,6 +200,7 @@ def login():
         if user_id:
             session["username"] = username
             session["user_id"] = user_id
+            session["csrf_token"] = token_hex(16)
             return redirect("/")
         else:
             return "ERROR: Incorrect username or password"
