@@ -2,7 +2,7 @@ import db
 import sqlite3
 
 def add_item(title, seed, description, user_id, game):
-    sql = "SELECT id FROM games WHERE name = ?"
+    sql = "SELECT id FROM games WHERE title = ?"
     game_id = db.query(sql, [game])[0][0]
 
     sql = """INSERT INTO items (title, seed, description, user_id, game_id)
@@ -20,6 +20,11 @@ def add_game(title, allowed_characters, max_length, use_all, user_id):
 
 def get_items():
     sql = "SELECT id, title, seed FROM items ORDER BY id DESC"
+
+    return db.query(sql)
+
+def get_games():
+    sql = "SELECT id, title FROM games ORDER BY id DESC"
 
     return db.query(sql)
 
@@ -42,6 +47,25 @@ def get_item(item_id):
     """
 
     result = db.query(sql, [item_id])
+    return result[0] if result else None
+
+def get_game(game_id):
+    sql = """
+    SELECT
+        G.id,
+        G.title,
+        G.max_length,
+        G.allowed_characters,
+        G.use_all,
+        U.username
+    FROM
+        Users U, Games G
+    WHERE
+        G.id = ? AND
+        G.user_id = U.id
+    """
+
+    result = db.query(sql, [game_id])
     return result[0] if result else None
 
 def update_item(item_id, title, description):
@@ -78,23 +102,7 @@ def find_items(terms, game_id):
     terms = "%" + terms + "%"
     return db.query(sql, [game_id, terms, terms])
 
-def find_with_terms(terms):
-    sql = """
-    SELECT
-        id, title
-    FROM
-        Items
-    WHERE
-        description LIKE ? OR
-        title LIKE ?
-    ORDER BY
-        id DESC
-    """
-
-    terms = "%" + terms + "%"
-    return db.query(sql, [terms, terms])
-
-def find_with_game(game_id):
+def find_all_items(game_id):
     sql = """
     SELECT
         id, title
@@ -107,6 +115,21 @@ def find_with_game(game_id):
     """
 
     return db.query(sql, [game_id])
+
+def find_games(terms):
+    sql = """
+    SELECT
+        id, title
+    FROM
+        games
+    WHERE
+        title LIKE ?
+    ORDER BY
+        id DESC
+    """
+
+    terms = "%" + terms + "%"
+    return db.query(sql, [terms])
 
 def add_comment(item_id, user_id, comment):
     print(item_id)

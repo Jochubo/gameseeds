@@ -20,24 +20,29 @@ def check_csrf():
 @app.route("/")
 def index():
     terms = request.args.get("terms")
-    game_id = request.args.get("game_id")
 
-    if terms and game_id:
-        all_items = items.find_items(terms, game_id)
-    elif not terms and game_id:
-        all_items = items.find_with_game(game_id)
-    elif terms and not game_id:
-        all_items = items.find_with_terms(terms)
+    if terms:
+        all_games = items.find_games(terms)
     else:
-        all_items = items.get_items()
+        all_games = items.get_games()
 
     if not terms:
         terms = ""
-    if not game_id:
-        game_id = ""
 
+    return render_template("index.html", games=all_games, terms=terms)
 
-    return render_template("index.html", items=all_items, terms=terms, game_id=game_id)
+@app.route("/game/<int:game_id>")
+def show_game(game_id):
+    game = items.get_game(game_id)
+    terms = request.args.get("terms")
+
+    if terms:
+        all_items = items.find_items(terms, game_id)
+    else:
+        all_items = items.find_all_items(game_id)
+        terms = ""
+
+    return render_template("show_game.html", items=all_items, terms=terms, game=game)
 
 @app.route("/user/<int:user_id>")
 def show_user(user_id):
