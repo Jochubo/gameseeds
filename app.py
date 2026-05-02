@@ -61,6 +61,12 @@ def new_item():
 
     return render_template("new_item.html")
 
+@app.route("/new_game")
+def new_game():
+    require_login()
+
+    return render_template("new_game.html")
+
 @app.route("/create_item", methods=["POST"])
 def create_item():
     require_login()
@@ -76,13 +82,37 @@ def create_item():
         abort(403)
     elif len(description) > 1000:
         abort(403)
-    elif not ( title or seed or game or description ):
+    elif not (title or seed or game or description):
         abort(403)
     elif not re.search("^[0-9]{0,50}$", seed):
         abort(403)
 
     items.add_item(title, seed, description, user_id, game)
+    flash("Post created successfully")
     return redirect("/")
+
+@app.route("/create_game", methods=["POST"])
+def create_game():
+    require_login()
+    check_csrf()
+
+    title = request.form["title"]
+    allowed_characters = request.form["allowed_characters"]
+    max_length = request.form["max_length"]
+    use_all = "use_all" in request.form
+    user_id = session["user_id"]
+
+    if len(title) > 50:
+        abort(403)
+    elif not (title or allowed or max_length or use_all):
+        abort(403)
+
+    use_all = 1 if use_all else 0
+    if items.add_game(title, allowed_characters, max_length, use_all, user_id):
+        flash("Game added successfully")
+        return redirect("/")
+    flash("ERROR: Game exists already", "error")
+    return redirect("/new_game")
 
 @app.route("/create_comment", methods=["POST"])
 def create_comment():
@@ -148,6 +178,7 @@ def remove_item(item_id):
         if "remove" in request.form:
             check_csrf()
             items.remove_item(item_id)
+            flash("Post deleted successfully")
             return redirect("/")
         else:
             return redirect("/item/" + str(item_id))
@@ -177,11 +208,11 @@ def register():
         password2 = request.form["password2"]
 
         if password1 != password2:
-            flash("ERROR: Passwords do not match")
+            flash("ERROR: Passwords do not match", "error")
             return render_template("register.html")
 
         if not users.create_user(username, password1):
-            flash("ERROR: username already exists")
+            flash("ERROR: username already exists", "error")
             return render_template("register.html")
 
         flash("Account created successfully")

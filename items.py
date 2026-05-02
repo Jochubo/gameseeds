@@ -1,4 +1,5 @@
 import db
+import sqlite3
 
 def add_item(title, seed, description, user_id, game):
     sql = "SELECT id FROM games WHERE name = ?"
@@ -7,6 +8,15 @@ def add_item(title, seed, description, user_id, game):
     sql = """INSERT INTO items (title, seed, description, user_id, game_id)
     VALUES (?, ?, ?, ?, ?)"""
     db.execute(sql, [title, seed, description, user_id, game_id])
+
+def add_game(title, allowed_characters, max_length, use_all, user_id):
+    sql = """INSERT INTO games (title, allowed_characters, max_length, use_all, user_id)
+    VALUES (?, ?, ?, ?, ?)"""
+    try:
+        db.execute(sql, [title, allowed_characters, max_length, use_all, user_id])
+    except sqlite3.IntegrityError:
+        return False
+    return True
 
 def get_items():
     sql = "SELECT id, title, seed FROM items ORDER BY id DESC"
@@ -22,7 +32,7 @@ def get_item(item_id):
         I.description,
         I.user_id,
         U.username,
-        G.name AS game
+        G.title AS game
     FROM
         Items I, Users U, Games G
     WHERE
