@@ -6,9 +6,11 @@ CREATE TABLE users (
 
 CREATE TABLE games (
     id INTEGER PRIMARY KEY,
-    name TEXT UNIQUE,
-    seed_length INTEGER,
-    seed_allowed TEXT
+    title TEXT UNIQUE,
+    max_length INTEGER,
+    allowed_characters INTEGER,
+    use_all INTEGER,
+    user_id INTEGER REFERENCES users
 );
 
 CREATE TABLE items (
