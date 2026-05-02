@@ -1,3 +1,4 @@
+import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
 import db
 
@@ -32,7 +33,11 @@ def get_items(user_id):
 def create_user(username, password):
     password_hash = generate_password_hash(password)
     sql = "INSERT INTO users (username, password_hash) VALUES (?, ?)"
-    db.execute(sql, [username, password_hash])
+    try:
+        db.execute(sql, [username, password_hash])
+    except sqlite3.IntegrityError:
+        return False
+    return True
 
 def check_login(username, password):
     sql = "SELECT id, password_hash FROM users WHERE username = ?"

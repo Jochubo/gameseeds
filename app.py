@@ -1,4 +1,3 @@
-import sqlite3
 import re
 from flask import Flask
 from flask import abort, redirect, render_template, request, session, flash
@@ -181,9 +180,7 @@ def register():
             flash("ERROR: Passwords do not match")
             return render_template("register.html")
 
-        try:
-            users.create_user(username, password1)
-        except sqlite3.IntegrityError:
+        if not users.create_user(username, password1):
             flash("ERROR: username already exists")
             return render_template("register.html")
 
