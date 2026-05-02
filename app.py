@@ -15,11 +15,7 @@ def require_login():
         abort(403)
 
 def check_csrf():
-    print("csrf")
-    print(request.form["csrf_token"])
-    print(session["csrf_token"])
     if request.form["csrf_token"] != session["csrf_token"]:
-        print("csrf abort")
         abort(403)
 
 @app.route("/")
@@ -195,25 +191,27 @@ def create():
 
 @app.route("/login", methods=["GET","POST"])
 def login():
-    if request.method == "GET":
-        return render_template("login.html")
-
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
-
         user_id = users.check_login(username, password)
+
         if user_id:
             session["username"] = username
             session["user_id"] = user_id
             session["csrf_token"] = token_hex(16)
+            flash("Successfully logged in")
             return redirect("/")
+
         else:
-            return "ERROR: Incorrect username or password"
+            flash("ERROR: Invalid password or username", "error")
+
+    return render_template("login.html")
 
 @app.route("/logout")
 def logout():
     if "user_id" in session:
         del session["user_id"]
         del session["username"]
+        flash("Successfully logged out")
     return redirect("/")

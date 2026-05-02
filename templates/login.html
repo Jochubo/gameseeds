@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-  <title>Login</title>
-</head>
-
-<body>
+{% extends "flash.html" %}
+{% block body %}
   {% if session.username %}
   <p>
     Logged in as {{ session.username }}
@@ -26,6 +20,4 @@
     <input type="submit" value="Log in" />
   </form>
   {% endif %}
-</body>
-
-</html>
+{% endblock %}

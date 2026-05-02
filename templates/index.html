@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-  <title>GameSeeds</title>
-</head>
-
-<body>
+{% extends "flash.html" %}
+{% block body %}
   <h1>GameSeeds</h1>
 
   {% if session.username %}
@@ -44,7 +38,4 @@
     {% if not items %}
     <p>No results</p>
     {% endif %}
-</body>
-
-</html>
-
+{% endblock %}
