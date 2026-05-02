@@ -170,24 +170,27 @@ def remove_comment(comment_id):
             items.remove_comment(comment_id)
         return redirect("/item/" + str(comment["item_id"]))
 
-@app.route("/register")
+@app.route("/register", methods=["GET", "POST"])
 def register():
+    if request.method == "POST":
+        username = request.form["username"]
+        password1 = request.form["password1"]
+        password2 = request.form["password2"]
+
+        if password1 != password2:
+            flash("ERROR: Passwords do not match")
+            return render_template("register.html")
+
+        try:
+            users.create_user(username, password1)
+        except sqlite3.IntegrityError:
+            flash("ERROR: username already exists")
+            return render_template("register.html")
+
+        flash("Account created successfully")
+        return redirect("/")
+
     return render_template("register.html")
-
-@app.route("/create", methods=["POST"])
-def create():
-    username = request.form["username"]
-    password1 = request.form["password1"]
-    password2 = request.form["password2"]
-    if password1 != password2:
-        return "ERROR: Passwords do not match"
-
-    try:
-        users.create_user(username, password1)
-    except sqlite3.IntegrityError:
-        return "ERROR: username already exists"
-
-    return "Account registered"
 
 @app.route("/login", methods=["GET","POST"])
 def login():
