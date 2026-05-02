@@ -9,7 +9,11 @@ def get_connection():
 
 def execute(sql, params=[]):
     con = get_connection()
-    result = con.execute(sql, params)
+    try:
+        result = con.execute(sql, params)
+    except sqlite3.IntegrityError:
+        con.close()
+        raise sqlite3.IntegrityError
     con.commit()
     g.last_insert_id = result.lastrowid
     con.close()
