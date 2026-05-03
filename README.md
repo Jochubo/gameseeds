@@ -3,17 +3,16 @@
 ## Application features
 - Users can create an account and log in.
 - Users can add, edit and delete posts.
+- Users can add new games.
 - Posts require a unique seed and the game the seed is for.
-- Posts can have a description and a list of tags.
-- Users can search and see created posts.
-- Users can search for posts with specific tags.
-- Users can like posts.
+- Post creation checks if the seed matches the conditionals for the game it's for.
+- Posts can have a description.
+- Users can search and see added games.
+- Users can search and see posts once they have selected a game.
 - Users can comment on posts.
-- Original poster can highlite comments on their post.
-- Application has a public user page that includes total post likes and created posts.
+- Application has a public user page that includes total posts and total comments.
 
 ## Installation
-
 
 Install the `flask`-library:
 
@@ -31,11 +30,9 @@ For startup run:
 
 ```
 $ flask run
-
 ```
-For testing run (temporary):
+For testing run:
 
 ```
 $ sqlite3 database.db < testinit.sql
-
 ```
