@@ -15,7 +15,7 @@
   </ul>
 
   <p>
-  {{ item.description }}
+  {{ item.description | show_lines}}
   </p>
   <p>
     {% if session.user_id == item.user_id %}
