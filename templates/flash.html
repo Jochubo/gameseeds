@@ -1,12 +1,37 @@
 <!doctype html>
-<title>GameSeeds</title>
-{% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-    <ul class=flashes>
-    {% for category, message in messages %}
-    <li class="{{ category }}">{{ message }}</li>
-    {% endfor %}
-    </ul>
-  {% endif %}
-{% endwith %}
-{% block body %}{% endblock %}
+<html>
+
+<title>{% block title %}{% endblock %}</title>
+
+<body>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <ul class=flashes>
+      {% for category, message in messages %}
+      <li class="{{ category }}">{{ message }}</li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+
+    <h1>GameSeeds</h1>
+
+    <p>
+      {% if session.username %}
+      Logged in as <a href="/user/{{ session.user_id }}">{{ session.username }}</a>
+      {% endif %}
+    </p>
+    <p>
+      {% if session.username %}
+      <a href="/logout">Logout</a> | 
+      {% else %}
+      <a href="/login">Login</a> | 
+      <a href="/register">Register</a> | 
+      {% endif %}
+      <a href="/">Main Page</a>
+    </p>
+
+  {% block body %}{% endblock %}
+</body>
+
+</html>

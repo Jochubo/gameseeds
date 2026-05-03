@@ -168,26 +168,26 @@ def update_item():
     title = request.form["title"]
     description = request.form["description"]
 
-    if user_id != session["user_id"]:
+    if not title or not description:
         abort(403)
-    if len(title) > 50:
+    elif user_id != session["user_id"]:
+        abort(403)
+    elif len(title) > 50:
         abort(403)
     elif len(description) > 1000:
         abort(403)
-    elif not title or not description:
-        abort(403)
 
     items.update_item(item_id, title, description)
-    return redirect("/")
+    return redirect("/item/" + str(item_id))
 
 @app.route("/remove_item/<int:item_id>", methods=["GET", "POST"])
 def remove_item(item_id):
     require_login()
+    item = items.get_item(item_id)
+    if not item:
+        abort(404)
 
     if request.method == "GET":
-        item = items.get_item(item_id)
-        if not item:
-            abort(404)
         return render_template("remove_item.html", item=item)
 
     if request.method == "POST":
@@ -195,7 +195,7 @@ def remove_item(item_id):
             check_csrf()
             items.remove_item(item_id)
             flash("Post deleted successfully")
-            return redirect("/")
+            return redirect("/game/" + str(item["game_id"]))
         else:
             return redirect("/item/" + str(item_id))
 

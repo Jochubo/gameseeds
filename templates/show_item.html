@@ -1,12 +1,9 @@
-<!DOCTYPE html>
-<html>
+{% extends "flash.html" %}
 
-<head>
-  <title>{{ item.title }}</title>
-</head>
+{% block title %}{{ item.title }}{% endblock %}
 
-<body>
-  <h1>{{ item.title }}</h1>
+{% block body %}
+  <h2>{{ item.title }}</h2>
   <p>
     <a href="/game/{{ item.game_id }}">Back</a>
   </p>
@@ -48,6 +45,4 @@
   </p>
   {% endif %}
   {% endfor %}
-</body>
-
-</html>
+{% endblock %}

@@ -1,25 +1,16 @@
 {% extends "flash.html" %}
+
+{% block title %}Gameseeds{% endblock %}
+
 {% block body %}
-  <h1>GameSeeds</h1>
-
-  {% if session.username %}
-  <p>
-  Logged in as <a href="/user/{{ session.user_id }}">{{ session.username }}</a>
-  </p>
-  <p>
-    <a href="/logout">Logout</a>
-  </p>
-  <p>
-    <a href="/new_game">Add Game</a>
-  </p>
-  {% else %}
-  <p>
-    <a href="/login">Login</a>
-    <a href="/register">Register</a>
-  </p>
-  {% endif %}
-
   <h2>Games</h2>
+
+  <p>
+    {% if session.user_id %}
+    <a href="/new_game">Add Game</a>
+    {% endif %}
+  </p>
+
   <form action="/" method="get">
     <p>Search: <input type="text" name="terms" value="{{ terms }}"> <input type="submit" value="Search"></p>
   </form>

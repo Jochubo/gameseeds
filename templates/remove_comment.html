@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html>
+{% extends "flash.html" %}
 
-<head>
-  <title>Delete Comment</title>
-</head>
+{% block title %}Delete comment{% endblock %}
 
-<body>
+{% block body %}
   <h1>Delete Comment</h1>
   <p>
     {{ comment.username }} | {{ comment.time }} :
@@ -19,7 +16,4 @@
     <input type="submit" name="remove" value="Delete Comment" />
     <input type="submit" name="back" value="Nevermind" />
   </form>
-</body>
-
-</html>
-
+{% endblock %}

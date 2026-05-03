@@ -1,12 +1,9 @@
-<!DOCTYPE html>
-<html>
+{% extends "flash.html" %}
 
-<head>
-  <title>User {{ user.username }}</title>
-</head>
+{% block title %}User {{ user.username }}{% endblock %}
 
-<body>
-  <h1>User {{ user.username }}</h1>
+{% block body %}
+  <h2>User {{ user.username }}</h2>
   <p>
     User has {{ items | count }} posts
   </p>
@@ -14,19 +11,17 @@
     User has {{ comments | count }} comments
   </p>
 
-  <h2>Posts</h2>
+  <h3>Posts</h3>
   <ul>
     {% for item in items %}
     <li><a href="/item/{{ item.id }}">{{ item.title }}</a></li>
     {% endfor %}
   </ul>
 
-  <h2>Commented on posts</h2>
+  <h3>Commented on posts</h3>
   <ul>
     {% for comment in comments %}
     <li><a href="/item/{{ comment.item_id }}">{{ comment.item_title }}</a></li>
     {% endfor %}
   </ul>
-</body>
-
-</html>
+{% endblock %}

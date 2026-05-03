@@ -1,12 +1,9 @@
-<!DOCTYPE html>
-<html>
+{% extends "flash.html" %}
 
-<head>
-  <title>Delete Post</title>
-</head>
+{% block title %}Delete Post{% endblock %}
 
-<body>
-  <h1>Delete Post</h1>
+{% block body %}
+  <h2>Delete Post</h2>
   <p>
     {{ item.title }} | {{ item.seed }}
   </p>
@@ -16,7 +13,4 @@
     <input type="submit" name="back" value="Nevermind" />
     <input type="hidden" name="csrf_token" value="{{session.csrf_token}}" />
   </form>
-</body>
-
-</html>
-
+{% endblock %}

@@ -1,6 +1,9 @@
 {% extends "flash.html" %}
+
+{% block title %}New Post{% endblock %}
+
 {% block body %}
-  <h1>New Seed For {{ game.title }}</h1>
+  <h2>New Seed For {{ game.title }}</h2>
 
   <form action="/create_item" method="post">
     <p>

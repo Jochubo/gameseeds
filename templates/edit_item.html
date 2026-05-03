@@ -1,12 +1,9 @@
-<!DOCTYPE html>
-<html>
+{% extends "flash.html" %}
 
-<head>
-  <title>Edit Post</title>
-</head>
+{% block title %}Edit Post{% endblock %}
 
-<body>
-  <h1>Edit Post</h1>
+{% block body %}
+  <h2>Edit Post</h2>
   <form action="/update_item" method="post">
     <p>
       Title: <br />
@@ -21,6 +18,4 @@
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
     <input type="submit" value="Update Post" />
   </form>
-</body>
-
-</html>
+{% endblock %}
