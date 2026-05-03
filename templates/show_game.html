@@ -1,11 +1,12 @@
 {% extends "flash.html" %}
 {% block body %}
 <h1>{{ game.title }}</h1>
-  {% if session.username %}
   <p>
-    <a href=/new_item>New Seed<a/>
-  </p>
+  {% if session.username %}
+  <a href=/game/{{ game.id }}/new_item>New Seed<a/>
   {% endif %}
+  <a href="/">Back</a>
+  </p>
 
   <h2>Posts</h2>
   <form action="/game/{{ game.id }}" method="get">
