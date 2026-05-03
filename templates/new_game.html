@@ -1,5 +1,8 @@
 {% extends "flash.html" %}
 {% block body %}
+
+  <h1>Add Game</h1>
+
   <form action="/create_game" method="post">
     <p>
       Game Title: <br />
@@ -16,7 +19,7 @@
     </p>
     <p>
       Max Length: <br />
-      <input type="number" name="max_length" min="0" required/>
+      <input type="number" name="max_length" min="1" max="100" required/>
     </p>
     <p>
       <input type="checkbox" name="use_all" value="" />

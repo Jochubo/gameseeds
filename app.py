@@ -60,11 +60,13 @@ def show_item(item_id):
         abort(404)
     return render_template("show_item.html", item=item, comments=comments)
 
-@app.route("/new_item")
-def new_item():
+@app.route("/game/<int:game_id>/new_item")
+def new_item(game_id):
     require_login()
 
-    return render_template("new_item.html")
+    game = items.get_game(game_id)
+    regex = config.regex_expressions[game["allowed_characters"]]
+    return render_template("new_item.html", game=game, regex=regex)
 
 @app.route("/new_game")
 def new_game():
@@ -80,21 +82,29 @@ def create_item():
     title = request.form["title"]
     seed = request.form["seed"]
     description = request.form["description"]
-    game = request.form["game"]
+    game_id = request.form["game_id"]
     user_id = session["user_id"]
 
-    if len(title) > 50 or len(seed) > 50 or len(game) > 50:
-        abort(403)
-    elif len(description) > 1000:
-        abort(403)
-    elif not (title or seed or game or description):
-        abort(403)
-    elif not re.search("^[0-9]{0,50}$", seed):
+    if not (title or seed or description or game_id):
         abort(403)
 
-    items.add_item(title, seed, description, user_id, game)
+    game = items.get_game(game_id)
+    regex = config.regex_expressions[game["allowed_characters"]]
+
+    if len(title) > 50 or len(description) > 1000:
+        abort(403)
+    elif len(seed) > game["max_length"]:
+        abort(403)
+    elif not re.search(regex, seed):
+        abort(403)
+
+    elif len(seed) != game["max_length"] and game["use_all"]:
+        flash(game["title"] + " seeds cannot have blank characters")
+        return redirect("/game/" + str(game_id) + "/new_item")
+
+    items.add_item(title, seed, description, user_id, game_id)
     flash("Post created successfully")
-    return redirect("/")
+    return redirect("/game/" + str(game_id))
 
 @app.route("/create_game", methods=["POST"])
 def create_game():
@@ -107,7 +117,7 @@ def create_game():
     use_all = "use_all" in request.form
     user_id = session["user_id"]
 
-    if len(title) > 50:
+    if len(title) > 50 or max_length > 100 or max_length < 1:
         abort(403)
     elif not (title or allowed or max_length or use_all):
         abort(403)

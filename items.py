@@ -1,10 +1,7 @@
 import db
 import sqlite3
 
-def add_item(title, seed, description, user_id, game):
-    sql = "SELECT id FROM games WHERE title = ?"
-    game_id = db.query(sql, [game])[0][0]
-
+def add_item(title, seed, description, user_id, game_id):
     sql = """INSERT INTO items (title, seed, description, user_id, game_id)
     VALUES (?, ?, ?, ?, ?)"""
     db.execute(sql, [title, seed, description, user_id, game_id])
@@ -36,6 +33,7 @@ def get_item(item_id):
         I.seed,
         I.description,
         I.user_id,
+        I.game_id,
         U.username,
         G.title AS game
     FROM

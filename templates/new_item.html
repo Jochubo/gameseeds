@@ -1,27 +1,33 @@
 {% extends "flash.html" %}
 {% block body %}
+  <h1>New Seed For {{ game.title }}</h1>
+
   <form action="/create_item" method="post">
     <p>
       Title: <br />
       <input type="text" name="title" maxlength="50" required/>
     </p>
     <p>
-      Game: <br />
-      <select name="game">
-        <option value="">(Select)</option>
-        <option value="Testgame1">Testgame1</option>
-        <option value="Testgame2">Testgame2</option>
-        <option value="Testgame3">Testgame3</option>
-      </select>
-    </p>
-    <p>
       Seed: <br />
-      <input type="text" name="seed" maxlength="50" pattern="[0-9]{0,50}" required/>
+      <input type="text" name="seed" maxlength="{{ game.max_length }}" pattern="{{ regex }}" required/> <br />
+      {% if game.use_all %}
+      Seed needs to be {{ game.max_length }} characters long
+      {% else %}
+      Seed can be {{ game.max_length }} characters long
+      {% endif %}
+      {% if game.allowed_characters == 0 %}
+       and can include any characters.
+      {% elif game.allowed_characters == 1 %}
+       and can include any English alphabet characters or numbers.
+      {% else %}
+       and can only include numbers.
+      {% endif %}
     </p>
     <p>
       Description: <br />
       <textarea name="description" rows="8" cols="40" maxlength="1000" required></textarea>
     </p>
+    <input type="hidden" name="game_id" value="{{ game.id }}" />
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
     <input type="submit" value="Create Post" />
   </form>

@@ -4,13 +4,12 @@
 
   {% if session.username %}
   <p>
-    Logged in as {{ session.username }}
+  Logged in as <a href="/user/{{ session.user_id }}">{{ session.username }}</a>
   </p>
   <p>
     <a href="/logout">Logout</a>
   </p>
   <p>
-    <a href=/new_item>New Seed<a/>
     <a href="/new_game">Add Game</a>
   </p>
   {% else %}
