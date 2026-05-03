@@ -12,16 +12,16 @@
   </p>
 
   <h3>Posts</h3>
-  <ul>
+  <div>
     {% for item in items %}
-    <li><a href="/item/{{ item.id }}">{{ item.title }}</a></li>
+    <p class="item" ><a href="/item/{{ item.id }}">{{ item.title }}</a></p>
     {% endfor %}
-  </ul>
+  </div>
 
   <h3>Commented on posts</h3>
-  <ul>
+  <div>
     {% for comment in comments %}
-    <li><a href="/item/{{ comment.item_id }}">{{ comment.item_title }}</a></li>
+    <p class="item" ><a href="/item/{{ comment.item_id }}">{{ comment.item_title }}</a></p>
     {% endfor %}
-  </ul>
+  </div>
 {% endblock %}

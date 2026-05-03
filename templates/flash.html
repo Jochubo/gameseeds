@@ -9,11 +9,11 @@
 <body>
   {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
-      <ul class=flashes>
+      <div class=flashes>
       {% for category, message in messages %}
-      <li class="{{ category }}">{{ message }}</li>
+      <p class="{{ category }}">{{ message }}</p>
       {% endfor %}
-      </ul>
+      </div>
     {% endif %}
   {% endwith %}
 
@@ -26,15 +26,16 @@
     </p>
     <p>
       {% if session.username %}
-      <a href="/logout">Logout</a> | 
+      <a class="link_button" href="/logout">Logout</a>
       {% else %}
-      <a href="/login">Login</a> | 
-      <a href="/register">Register</a> | 
+      <a class="link_button" href="/login">Login</a>
+      <a class="link_button" href="/register">Register</a>
       {% endif %}
-      <a href="/">Main Page</a>
+      <a class="link_button" href="/">Main Page</a>
     </p>
-
+<div class="content">
   {% block body %}{% endblock %}
+</div>
 </body>
 
 </html>

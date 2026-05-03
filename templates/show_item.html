@@ -5,7 +5,7 @@
 {% block body %}
   <h2>{{ item.title }}</h2>
   <p>
-    <a href="/game/{{ item.game_id }}">Back</a>
+    <a class="link_button" href="/game/{{ item.game_id }}">Back</a>
   </p>
 
   <ul>
@@ -19,8 +19,8 @@
   </p>
   <p>
     {% if session.user_id == item.user_id %}
-    <a href="/edit_item/{{ item.id }}">Edit</a>
-    <a href="/remove_item/{{ item.id }}">Delete</a>
+    <a class="link_button" href="/edit_item/{{ item.id }}">Edit</a>
+    <a class="link_button" href="/remove_item/{{ item.id }}">Delete</a>
     {% endif %}
   </p>
 
@@ -38,12 +38,14 @@
 
   <h2>Comments</h2>
   {% for comment in comments %}
+  <div class="item">
   <p><a href="/user/{{ comment.user_id }}">{{ comment.username }}</a> | {{ comment.time }} :</p>
   <p>{{ comment.content }}</p>
   {% if session.user_id == comment.user_id %}
   <p>
-    <a href="/remove_comment/{{ comment.id }}">Delete</a>
+    <a class="link_button" href="/remove_comment/{{ comment.id }}">Delete</a>
   </p>
+  </div>
   {% endif %}
   {% endfor %}
 {% endblock %}

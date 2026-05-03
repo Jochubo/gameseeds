@@ -7,7 +7,7 @@
 
   <p>
     {% if session.user_id %}
-    <a href="/new_game">Add Game</a>
+    <a class="link_button" href="/new_game">Add Game</a>
     {% endif %}
   </p>
 
@@ -16,7 +16,7 @@
   </form>
     <ul>
     {% for game in games %}
-    <div class="game">
+    <div class="item">
       <a href="/game/{{  game.id  }}">{{ game.title }}</a>
       Posts: {{ game.total_items }}
     </div>

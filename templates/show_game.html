@@ -5,9 +5,9 @@
 {% block body %}
 <h2>{{ game.title }}</h2>
   <p>
-  <a href="/">Back</a>
+  <a class="link_button" href="/">Back</a>
   {% if session.username %}
-  <a href=/game/{{ game.id }}/new_item>New Seed<a/>
+  <a class="link_button" href=/game/{{ game.id }}/new_item>New Seed<a/>
   {% endif %}
   </p>
 
