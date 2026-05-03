@@ -31,4 +31,3 @@ For startup run:
 ```
 $ flask run
 ```
-```
