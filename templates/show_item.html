@@ -7,11 +7,12 @@
   <p>
     <a href="/game/{{ item.game_id }}">Back</a>
   </p>
-  <h3>{{ item.game }}</h3>
-  <h3>{{ item.seed }}</h3>
-  <p>
-  OP: <a href="/user/{{ item.user_id }}">{{ item.username }}<a/>
-  </p>
+
+  <ul>
+    <li>Seed: {{ item.seed }}</li>
+    <li>Game: {{ item.game }}</li>
+    <li>OP: <a href="/user/{{ item.user_id }}">{{ item.username }}<a/></li>
+  </ul>
 
   <p>
   {{ item.description }}
