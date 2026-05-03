@@ -21,7 +21,18 @@ def get_items():
     return db.query(sql)
 
 def get_games():
-    sql = "SELECT id, title FROM games ORDER BY id DESC"
+    sql = """
+    SELECT
+        G.id,
+        G.title,
+        COUNT(I.id) as total_items
+    FROM
+        Games G LEFT JOIN Items I ON G.id = I.game_id
+    GROUP BY
+        G.id
+    ORDER BY
+        total_items DESC
+    """
 
     return db.query(sql)
 
@@ -86,15 +97,20 @@ def remove_item(item_id):
 def find_items(terms, game_id):
     sql = """
     SELECT
-        id, title
+        I.id,
+        I.title,
+        I.seed,
+        I.user_id
+        U.username
     FROM
-        Items
+        Items I, Users U
     WHERE
-        game_id = ? AND
-        (description LIKE ? OR
-        title LIKE ?)
+        I.game_id = ? AND
+        I.user_id = U.id AND
+        (I.description LIKE ? OR
+        I.title LIKE ?)
     ORDER BY
-        id DESC
+        I.id DESC
     """
 
     terms = "%" + terms + "%"
@@ -103,13 +119,18 @@ def find_items(terms, game_id):
 def find_all_items(game_id):
     sql = """
     SELECT
-        id, title
+        I.id,
+        I.title,
+        I.seed,
+        I.user_id,
+        U.username
     FROM
-        Items
+        Items I, Users U
     WHERE
-        game_id = ?
+        I.game_id = ? AND
+        I.user_id = U.id
     ORDER BY
-        id DESC
+        I.id DESC
     """
 
     return db.query(sql, [game_id])
@@ -117,13 +138,17 @@ def find_all_items(game_id):
 def find_games(terms):
     sql = """
     SELECT
-        id, title
+        G.id,
+        G.title,
+        COUNT(I.id) as total_items
     FROM
-        games
+        Games G LEFT JOIN Items I ON G.id = I.game_id
     WHERE
-        title LIKE ?
+        G.title LIKE ?
+    GROUP BY
+        G.id
     ORDER BY
-        id DESC
+        total_items DESC
     """
 
     terms = "%" + terms + "%"

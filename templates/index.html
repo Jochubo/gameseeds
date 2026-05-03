@@ -16,7 +16,10 @@
   </form>
     <ul>
     {% for game in games %}
-    <li><a href="/game/{{  game.id  }}">{{ game.title }}</a></li>
+    <div class="game">
+      <a href="/game/{{  game.id  }}">{{ game.title }}</a>
+      Posts: {{ game.total_items }}
+    </div>
     {% endfor %}
     </ul>
     {% if not games %}
