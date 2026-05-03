@@ -121,7 +121,7 @@ def create_game():
 
     title = request.form["title"]
     allowed_characters = request.form["allowed_characters"]
-    max_length = request.form["max_length"]
+    max_length = int(request.form["max_length"])
     use_all = "use_all" in request.form
     user_id = session["user_id"]
 
