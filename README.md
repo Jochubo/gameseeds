@@ -31,8 +31,4 @@ For startup run:
 ```
 $ flask run
 ```
-For testing run:
-
-```
-$ sqlite3 database.db < testinit.sql
 ```
