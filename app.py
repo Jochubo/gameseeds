@@ -49,8 +49,9 @@ def show_user(user_id):
     user = users.get_user(user_id)
     if not user:
         abort(404)
-    items = users.get_items(user_id)
-    return render_template("show_user.html", user=user, items=items)
+    posts = users.get_items(user_id)
+    comments = items.get_user_commented_posts(user_id)
+    return render_template("show_user.html", user=user, items=posts, comments=comments)
 
 @app.route("/item/<int:item_id>")
 def show_item(item_id):

@@ -159,6 +159,22 @@ def get_comments(item_id):
 
     return db.query(sql, [item_id])
 
+def get_user_commented_posts(user_id):
+    sql = """
+    SELECT DISTINCT 
+        I.id,
+        I.title as item_title
+    FROM
+        Comments C, Items I
+    WHERE
+        C.item_id = I.id AND
+        C.user_id = ?
+    ORDER BY
+        C.time DESC
+    """
+
+    return db.query(sql, [user_id])
+
 def get_comment(comment_id):
     sql = """
     SELECT

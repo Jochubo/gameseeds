@@ -8,12 +8,23 @@
 <body>
   <h1>User {{ user.username }}</h1>
   <p>
-    User has {{ items | count }} posts.
+    User has {{ items | count }} posts
   </p>
+  <p>
+    User has {{ comments | count }} comments
+  </p>
+
   <h2>Posts</h2>
   <ul>
     {% for item in items %}
     <li><a href="/item/{{ item.id }}">{{ item.title }}</a></li>
+    {% endfor %}
+  </ul>
+
+  <h2>Commented on posts</h2>
+  <ul>
+    {% for comment in comments %}
+    <li><a href="/item/{{ comment.item_id }}">{{ comment.item_title }}</a></li>
     {% endfor %}
   </ul>
 </body>
